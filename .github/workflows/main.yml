@@ -14,29 +14,22 @@ jobs:
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
+          username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
             set -e
 
-            APP_DIR=/home/ubuntu/app
+            cd /home/ec2-user/git/Dummy
 
-            if [ ! -d "$APP_DIR" ]; then
-              git clone https://github.com/<USERNAME>/<REPOSITORY>.git $APP_DIR
-            fi
-
-            cd $APP_DIR
-
-            git fetch origin
-            git checkout admin
+            # Pull latest code
             git pull origin admin
 
-            # Build application
-            ./mvnw clean package -DskipTests
+            # Build Docker image
+            sudo docker build -t dummy-admin .
 
-            # Restart service
-            sudo systemctl restart my-app.service
+            # Stop and remove old container
+            sudo docker rm -f dummy-admin || true
 
-            # Verify service status
-            sudo systemctl is-active my-app.service
+            # Run new container
+            sudo docker run -d  --name dummy-admin -p 8080:8080 dummy-admin
