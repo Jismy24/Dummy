@@ -2,7 +2,9 @@ package com.dummy.admin.services.impl;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.stereotype.Service;
+
 import com.dummy.admin.models.entities.User;
 import com.dummy.admin.models.payload.UserRequest;
 import com.dummy.admin.repositories.AdminRepository;
@@ -19,7 +21,7 @@ public class AdminService {
     public User createUser(UserRequest request) {
         try {
             User user = new User();
-            user.setId(null); // important for insert
+            user.setId(null); 
             user.setName(request.getName());
             user.setEmail(request.getEmail());
             user.setPassword(request.getPassword());
