@@ -32,10 +32,4 @@ jobs:
             sudo docker rm -f dummy-admin || true
 
             # Run new container
-            sudo docker run -d \
-              --name dummy-admin \
-              -p 8080:8080 \
-              dummy-admin
-
-            # Verify container is running
-            sudo docker ps
+            sudo docker run -d  --name dummy-admin -p 8080:8080 dummy-admin
