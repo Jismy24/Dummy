@@ -3,7 +3,7 @@ name: Deploy Backend to EC2
 on:
   push:
     branches:
-      - admin
+      - main
 
 jobs:
   deploy:
@@ -23,7 +23,7 @@ jobs:
             cd /home/ec2-user/git/Dummy
 
             # Pull latest code
-            git pull origin admin
+            git pull origin main
 
             # Build Docker image
             sudo docker build -t dummy-admin .
