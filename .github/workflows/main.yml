@@ -3,14 +3,14 @@ name: Deploy Backend to EC2
 on:
   push:
     branches:
-      - admin
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy to EC2
+      - name: Deploy to EC2 using SSH Action
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -18,12 +18,11 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            set -e
-
+          
             cd /home/ec2-user/git/Dummy
 
             # Pull latest code
-            git pull origin admin
+            git pull origin main
 
             # Build Docker image
             sudo docker build -t dummy-admin .
